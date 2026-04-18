@@ -22,7 +22,7 @@ The warehouse is designed to support:
 
 ## Architecture
 
-This project follows a layered warehouse design:
+This project follows a medallion architecture warehouse design:
 
 ### Bronze Layer
 Raw source data loaded as-is into staging tables.
@@ -45,9 +45,7 @@ Star schema design used for reporting performance and usability.
 ### Dimension Tables
 - DimCustomer  
 - DimProduct  
-- DimDate  
-- DimLocation *(if applicable)*
-
+- DimDate
 ---
 
 ## Key Skills Demonstrated
