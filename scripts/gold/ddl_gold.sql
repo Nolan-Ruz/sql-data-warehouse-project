@@ -43,6 +43,7 @@ LEFT JOIN silver.erp_cust_az12 ca
     ON ci.cst_key = ca.cid
 LEFT JOIN silver.erp_loc_a101 la
     ON ci.cst_key = la.cid;
+GO
 
 -- ================================================================
 -- Dim Product
@@ -69,7 +70,7 @@ FROM silver.crm_prd_info crm
 LEFT JOIN silver.erp_px_cat_g1v2 erp 
     ON crm.cat_id = erp.id 
 WHERE prd_end_dt IS NULL;
-
+GO
 -- ================================================================
 -- Fact Sales
 -- ================================================================
@@ -94,3 +95,28 @@ LEFT JOIN gold.dim_customers dc
     ON sd.sls_cust_id = dc.customer_id
 LEFT JOIN gold.dim_products dp 
     ON sd.sls_prd_key = dp.product_number;
+GO
+
+-- ================================================================
+-- Dim Date
+-- ================================================================
+
+IF OBJECT_ID('gold.dim_date', 'V') IS NOT NULL
+    DROP VIEW gold.dim_date;
+GO
+
+CREATE VIEW gold.dim_date AS
+WITH n AS (
+    SELECT TOP (9497)
+        ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) - 1 AS num
+    FROM sys.objects
+)
+SELECT
+    CONVERT(INT, FORMAT(DATEADD(DAY, num, '2010-01-01'), 'yyyyMMdd')) AS date_key,
+    DATEADD(DAY, num, '2010-01-01') AS full_date,
+    YEAR(DATEADD(DAY, num, '2010-01-01')) AS year,
+    MONTH(DATEADD(DAY, num, '2010-01-01')) AS month_number,
+    DATENAME(MONTH, DATEADD(DAY, num, '2010-01-01')) AS month_name,
+    DAY(DATEADD(DAY, num, '2010-01-01')) AS day_number
+FROM n;
+GO
