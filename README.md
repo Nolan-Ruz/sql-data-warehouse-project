@@ -23,6 +23,7 @@ The warehouse is designed to support:
 ## Architecture
 
 This project follows a medallion architecture warehouse design:
+<img width="964" height="675" alt="image" src="https://github.com/user-attachments/assets/4332ca0e-d131-47c5-ab4c-f0e8ae62e188" />
 
 ### Bronze Layer
 Raw source data loaded as-is into staging tables.
